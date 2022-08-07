@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+		</div>
+		<script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+		<!--2.创建实例化对象-->
+        <script type="text/javascript">
+            Vue.component('Test',{
+                data(){
+                    return{
+                        msg: "hello world"
+                    }
+                },
+                template:`
+                <div>
+                    <div>{{msg}}</div>
+                </div> 
+                `,
+                beforeCreate:function(){
+                    console.log(this);
+                },
+                created: function(){
+                    console.log(this.msg)
+                },
+                beforeMount:function(){
+                    //挂在数据dao
+                },
+
+            })
+            var App = {
+                data(){
+                    return{
+                        isShow: false
+                    }
+                },
+                template: `
+                <div class='app'>
+                    <keep-alive>
+                        <Test v-if='isShow'/>
+                    </keep-alive>
+                    <button @click = 'isShow=!isShow'>Change status</button>
+                </div>
+                `
+            }
+        //如果template中定义了内容，优先加载template，如果没定义内容，加载#app模板
+        //简单数据类型， 简单监视
+        //复杂数据类型，深度监视
+		new Vue({
+			el:'#app',
+			data:{ 
+				
+			},
+            components: {
+                App
+            },
+            template : `<App/>`,
+
+			
+			
+		});
+		
+    </script>
+	</body>
+</html>

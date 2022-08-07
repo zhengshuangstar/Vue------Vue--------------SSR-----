@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			
+		</div>
+        <script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+        <script type="text/javascript" src="../node_modules/vue-router/dist/vue-router.js"></script>
+		 <script type="text/javascript">
+			//让Vue使用该VueRouter
+            Vue.use(VueRouter)
+            //地址栏上路由范式
+            //1. xxx.html#/user/1 params动态路由参数
+            //2. 000.html#/
+            var Timeline={
+                template:`
+                <div id='timeline'>
+                    I am Homepage
+                </div>
+                `,
+                created(){
+                    console.log('home page comp created');
+                },
+                mounted(){
+                    console.log('Comp DOM mounted');
+                },
+                destroyed(){
+                    console.log('Home compon desctroyed');
+                }
+
+            }
+            var Pins={
+                template:`
+                <div>
+                    <h3 @click='clickHandler'>I am Pins</h3>
+                </div>
+                `,
+                methods:{
+                    clickHandler(e){
+                        e.target.style.color ='red';
+                    }
+                }
+            }
+            
+            var router=new VueRouter({
+                
+                //配置路由对象
+                routes:[
+                    //路由匹配规则
+                    {
+                        //动态路由参数，以冒号开头
+                        path:"/timeline",
+                        name:'timeline',
+                        component: Timeline
+                    },
+                    {
+                        path:"/pins",
+                        name:'pins',
+                        component: Pins
+                    }
+
+                ]
+
+            })
+            //引入vue-router模块，抛出两个全局组件，router-link==>a to ==>href  
+            //router-view===>路由匹配组件的出口
+            var App ={
+                template:`
+                    <div>
+                        <router-link to='/timeline'>Home</router-link>
+                        <router-link to='/pins'>Pins</router-link>
+                        <keep-alive>
+                        <router-view></router-view>
+                        <keep-alive>
+                        
+                    </div>    
+                    
+                
+                `
+            }
+            new Vue({
+                el:"#app",
+                data(){
+                    return{
+
+                    }
+                },
+                components:{
+                    App
+                },
+                //交给vue管理
+                router,
+                template:'<App/>'
+            })
+		 </script>
+	</body>
+</html>

@@ -1,0 +1,4 @@
+//1 $bus 兄弟组件传值
+//2 $parent, $children
+//3 $attrs, $listeners
+//4 vuex

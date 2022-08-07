@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-model='msg'>
+			<h3>{{msg}}</h3> 
+            <h4>{{stus[0].name}}</h4>
+            <button >new vaule</button>
+		</div>
+		<script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+		<!--2.创建实例化对象-->
+        <script type="text/javascript">
+        
+        //如果template中定义了内容，优先加载template，如果没定义内容，加载#app模板
+        //简单数据类型， 简单监视
+        //复杂数据类型，深度监视
+		new Vue({
+			el:'#app',
+			data:{ 
+				msg:"黄瓜",
+                stus:[{name:'jack'}]
+			},
+            watch:{
+                msg:function(newV,oldV){
+                    console.log(newV, oldV)
+                },
+                stus:{
+                    deep: true,//深度监视
+                    hanlder: function(newV,oldV){
+                        console.log(newV)
+                    }
+                    
+                }
+            }
+			
+			
+		});
+		
+    </script>
+	</body>
+</html>

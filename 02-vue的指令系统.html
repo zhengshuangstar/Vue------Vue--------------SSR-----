@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<ul>
+				<li v-for="(item,index) in menuList">
+					<h5>{{item.id}}</h5>
+					<h5>{{item.name}}</h5>
+					<h5>{{index}}</h5>
+				</li>	
+			</ul>
+			<ul>
+				<li v-for="(value,key) in Person">
+					{{key}} ==={{value}}
+				</li>
+			</ul>
+		</div>
+		 <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+		 <script type="text/javascript">
+			 new Vue({
+			 	el:'#app',
+			 	data:function(){
+					return {
+						//既可以是一个对象，也可以是一个函数
+						msg:"黄瓜",
+						msg2:'<h2>zhilingxitong</h2>',
+						isGreen: false,
+						menuList:[
+							{id:1, name:'dayaozi',price:70},
+							{id:2, name:'dayaozi',price:70},
+							{id:3, name:'dayaozi',price:70},
+						],
+						Person: {
+							name: 'da peng',
+							age: '15',
+							xiangchi: 'sss'
+						}
+					}
+				},
+			 // 	template:`
+				// 	<div class='app'>
+				// 		<h2>{{msg}}</h2>
+				// 		<p v-text = "msg"></p>
+				// 		<div v-html="msg2"></div>
+				// 		<div class='box' v-bind:class="{active:false}"></div>
+				// 		<Button v-on:click = 'clickHandler'>click for handler</Button>
+				// 		<ul>
+				// 	</div>
+				// `,
+				methods:{
+					clickHanlder(e){
+						console.log(this)
+						this.isGreen = true
+					}
+				}
+			});
+		 </script>
+	</body>
+</html>

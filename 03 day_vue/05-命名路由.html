@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			
+		</div>
+        <script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+        <script type="text/javascript" src="../node_modules/vue-router/dist/vue-router.js"></script>
+		 <script type="text/javascript">
+			//让Vue使用该VueRouter
+            Vue.use(VueRouter)
+            var Login={
+                template:`
+                <div>I am login</div>
+                `
+            }
+            var Register={
+                template:`
+                <div>I am register</div>
+                `
+            }
+            //创建router对象
+            var router=new VueRouter({
+                //配置路由对象
+                routes:[
+                    //路由匹配规则
+                    {
+                        path:"/login",
+                        name:'login',
+                        component: Login
+                    },
+                    {
+                        path:"/register",
+                        name:'register',
+                        component: Register
+                    }
+
+                ]
+
+            })
+            //引入vue-router模块，抛出两个全局组件，router-link==>a to ==>href  
+            //router-view===>路由匹配组件的出口
+            var App ={
+                template:`
+                    <div>
+                        <router-link :to="{name:'login'}">login</router-link>
+                        <router-link :to="{name:'reigister'}">register</router-link>
+                        <router-view></router-view>
+                        <a href="">login</a>
+                        <a href="">register</a>
+                    </div>    
+                    
+                
+                `
+            }
+            new Vue({
+                el:"#app",
+                data(){
+                    return{
+
+                    }
+                },
+                components:{
+                    App
+                },
+                //交给vue管理
+                router,
+                template:'<App/>'
+            })
+		 </script>
+	</body>
+</html>

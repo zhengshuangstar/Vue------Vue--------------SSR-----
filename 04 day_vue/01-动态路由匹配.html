@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			
+		</div>
+        <script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+        <script type="text/javascript" src="../node_modules/vue-router/dist/vue-router.js"></script>
+		 <script type="text/javascript">
+			//让Vue使用该VueRouter
+            Vue.use(VueRouter)
+            //地址栏上路由范式
+            //1. xxx.html#/user/1 params动态路由参数
+            //2. 000.html#/
+            var Timeline={
+                template:`
+                <div id='timeline'>
+                    <router-link :to="{name:'comDesc',params:{id:'frontend'}}">frontent</router-link>
+                    <router-link :to="{name:'comDesc',params:{id:'backend'}}">backend</router-link>
+                    <router-view></router-view>
+                    I am Homepage
+                </div>
+                `
+            }
+            var Pins={
+                template:`
+                <div>I am Pins</div>
+                `
+            }
+            //使用带有参数的路由时需要注意的是，当用户从 /users/johnny 导航到 /users/jolyne 时，相同的组件实例将被重复使用。因为两个路由都渲染同个组件，比起销毁再创建，复用则显得更加高效。不过，这也意味着组件的生命周期钩子不会被调用。
+            //要对同一个组件中参数的变化做出响应的话，你可以简单地 watch $route 对象上的任意属性，在这个场景中，就是 $route.params ：
+            var ComDesc={
+                template:`
+                    <div>
+                        I am {{msg}}
+                    </div>
+                `,
+                data(){
+                    return{
+                        msg:''
+                    }
+                },
+                created(){
+                    console.log(1);
+                    this.msg='backend';
+                },
+                //在当前组件内部监听路由信息变化
+                watch:{
+                    '$route'(to,from){
+                        console.log(to);
+                        console.log(from);
+                        console.log(to.params.id);
+                        //发送Ajax请求
+                        this.msg=to.params.id;
+                    }
+                }
+            }
+            //创建router对象
+            var router=new VueRouter({
+                
+                //配置路由对象
+                routes:[
+                    //路由匹配规则
+                    {
+                        //动态路由参数，以冒号开头
+                        path:"/timeline",
+                        name:'timeline',
+                        component: Timeline,
+                        children:[
+                            {
+                                name: 'comDesc',
+                                //动态路由的参数，以冒号开头
+                                path:'/timeline/:id',
+                                component: ComDesc
+
+                            }
+                        ]
+                    },
+                    {
+                        path:"/pins",
+                        name:'pins',
+                        component: Pins
+                    }
+
+                ]
+
+            })
+            //引入vue-router模块，抛出两个全局组件，router-link==>a to ==>href  
+            //router-view===>路由匹配组件的出口
+            var App ={
+                template:`
+                    <div>
+                        <router-link to='/timeline'>Home</router-link>
+                        <router-link to='/pins'>Pins</router-link>
+                        <router-view></router-view>
+                        
+                    </div>    
+                    
+                
+                `
+            }
+            new Vue({
+                el:"#app",
+                data(){
+                    return{
+
+                    }
+                },
+                components:{
+                    App
+                },
+                //交给vue管理
+                router,
+                template:'<App/>'
+            })
+		 </script>
+	</body>
+</html>

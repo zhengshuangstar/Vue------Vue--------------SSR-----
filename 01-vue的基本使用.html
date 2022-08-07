@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 模版语法，{{}}双大括号插值 -->
+			<h2>{{msg}}</h2>
+			<h2>{{1+1}}</h2>
+			<h4>{{isTrue}}</h4>
+			<h4>{{str.split('').reverse().join('')}}</h4>
+		</div>
+		<script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+		<!--2.创建实例化对象-->
+        <script type="text/javascript">
+        
+        //如果template中定义了内容，优先加载template，如果没定义内容，加载#app模板
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				//既可以是一个对象，也可以是一个函数
+				msg:"黄瓜",
+				isTrue: 1==1,
+				str:'Hello vue'
+			},
+			template:''
+			
+		});
+		console.log(vm.$data);
+    </script>
+	</body>
+</html>

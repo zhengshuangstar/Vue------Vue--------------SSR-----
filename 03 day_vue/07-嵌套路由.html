@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			
+		</div>
+        <script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+        <script type="text/javascript" src="../node_modules/vue-router/dist/vue-router.js"></script>
+		 <script type="text/javascript">
+			//让Vue使用该VueRouter
+            Vue.use(VueRouter)
+            //地址栏上路由范式
+            //1. xxx.html#/user/1 params动态路由参数
+            //2. 000.html#/
+            var Home={
+                template:`
+                <div>
+                    I am home
+                    <br/>
+                    <router-link to='/home/song'>Song</router-link>
+                    <router-link to='/home/movie'>Movie</router-link>
+                    <router-view />
+                </div>
+                `,
+                created(){
+                    console.log(this.$route);
+                    console.log(this.$route.params.id);
+                    console.log(this.$router);
+                }
+            }
+            var Song={
+                template:`
+                <div>
+                 I am Song
+                </div>
+                `
+            }
+            var Movie={
+                template:`
+                <div>
+                 I am Movie
+                </div>
+                `
+            }
+            var UserQuery={
+                template:`
+                <div>I am user2</div>
+                `
+            }
+            //创建router对象
+            var router=new VueRouter({
+                //配置路由对象
+                routes:[
+                    //路由匹配规则
+                    {
+                        //动态路由参数，以冒号开头
+                        path:"/home",
+                        name:'home',
+                        component: Home,
+                        children: [
+                        {
+                            path:'song',
+                            component: Song
+                        },
+                        {
+                            path:'movie',
+                            component: Movie
+                        },
+                        ]
+
+                    },
+                    {
+                        path:"/user",
+                        name:'userQ',
+                        component: UserQuery
+                    }
+
+                ]
+
+            })
+            //引入vue-router模块，抛出两个全局组件，router-link==>a to ==>href  
+            //router-view===>路由匹配组件的出口
+            var App ={
+                template:`
+                    <div>
+                        <router-link :to="{name:'home'}">Home</router-link>
+                        <router-view></router-view>
+                        <a href="">login</a>
+                        <a href="">register</a>
+                    </div>    
+                    
+                
+                `
+            }
+            new Vue({
+                el:"#app",
+                data(){
+                    return{
+
+                    }
+                },
+                components:{
+                    App
+                },
+                //交给vue管理
+                router,
+                template:'<App/>'
+            })
+		 </script>
+	</body>
+</html>

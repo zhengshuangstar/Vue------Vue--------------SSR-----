@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Document</title>
+	</head>
+	<body>
+		<!--
+			路由实现：
+			1. 传统开发方式url改变后，立刻发生请求响应整个页面，有可能资源过多，
+			出现白屏现象
+			2. SPA 单页面应用 single page application
+			锚点值改变后不会立刻发送请求，而是在某个合适时机，发起ajax请求，页面局部渲染
+			优点：页面不立刻跳转，用户体验好
+		-->
+		<a href="#/login">登陆</a>
+		<a href="#/register">注册</a>
+		<div id="app"></div>
+		<script type="text/javascript">
+			window.onhashchange =function(){
+				console.log(location.hash)
+			}
+
+		</script>
+	</body>
+</html>
