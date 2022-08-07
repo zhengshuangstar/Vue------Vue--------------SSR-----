@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<router-link to="/home">Home page</router-link>
+            <router-link to="/blog">Blog</router-link>
+            <router-link to="/login">Login</router-link>
+            <a href="javascript:void(0)">exit</a>
+            <router-view></router-view>
+		</div>
+        <script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+        <script type="text/javascript" src="../node_modules/vue-router/dist/vue-router.js"></script>
+		 <script type="text/javascript">
+			//让Vue使用该VueRouter
+            Vue.use(VueRouter);
+            
+            var Home={
+                template:`
+                <div id='timeline'>
+                    I am Homepage
+                </div>
+                `,
+                created(){
+                    console.log('home page comp created');
+                },
+                mounted(){
+                    console.log('Comp DOM mounted');
+                },
+                destroyed(){
+                    console.log('Home compon desctroyed');
+                }
+
+            }
+            var Blog={
+                template:`
+                <div>
+                   I am blog
+                </div>
+                `
+            }
+            var Login={
+                data(){
+                    return{
+                        name:'',
+                        pwd:'',
+                    }
+                    
+                },
+                template:`
+                <div>
+                   <input type='text' v-model='name' />
+                   <input type='password' v-model='pwd'/>
+                   <input type='button' value='login' @click='loginHandler'/>
+                </div>
+                `,
+                methods:{
+                    loginHandler(){
+                        localStorage.setItem('user',{name:this.name,pwd:this.pwd});
+                        //跳转到博客页面
+                        //编成式导航
+                        this.$router.push({
+                            name:'blog'
+                        })
+                    }
+                }
+            }
+            
+            var router=new VueRouter({
+                
+                //配置路由对象
+                routes:[
+                    //路由匹配规则
+                    {
+                        //动态路由参数，以冒号开头
+                        path:"/",
+                        redirect:"/home"
+                    },
+                    {
+                        //动态路由参数，以冒号开头
+                        path:"/home",
+                        component: Home
+                    },
+                    {
+                        path:"/blog",
+                        name:'blog',
+                        component: Blog,
+                        //给未来路由做权限控制
+                        meta:{
+                            //证明用户访问该组件时需要登陆
+                            auth:true
+                        }
+                    },
+                    {
+                        path:"/login",
+                        name:'login',
+                        component: Login,
+                        
+                    
+                    }
+
+                ]
+
+            });
+            router.beforeEach((to, from, next) => {
+                console.log(to);
+                console.log(from);
+                if(to.meta.auth){
+                    //用户点击了博客链接，用户需要登陆
+                    if(localStorage.getItem('user')){
+                        next()
+                    }else{
+                        next({
+                            path:'/login'
+                        })
+                    }
+                    
+                }else{
+                    next()
+                }
+               
+
+            })
+            new Vue({
+                el:"#app",
+               
+                //交给vue管理
+                router,
+                
+            })
+		 </script>
+	</body>
+</html>

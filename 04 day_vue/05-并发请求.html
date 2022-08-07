@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			
+		</div>
+        <script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+        <script type="text/javascript" src="../node_modules/vue-router/dist/vue-router.js"></script>
+        <script type="text/javascript" src="../node_modules/axios/dist/axios.js"></script>
+		 <script type="text/javascript">
+			
+            //引入vue-router模块，抛出两个全局组件，router-link==>a to ==>href  
+            //router-view===>路由匹配组件的出口
+            var App ={
+                data(){
+                    return{
+                        res1:'',
+                        res2:''
+                    }
+                },
+                template:`
+                    <div>
+                       response1:{{res1}}
+                       response2:{{res2}}
+                       <button @click='sendAjax'>并发请求</button>
+                        
+                    </div>    
+                
+                `,
+                methods:{
+                    sendAjax(){
+                        this.$axios.defaults.baseURL='http://127.0.0.1:8888/';
+
+                        var r1=this.$axios.get('');
+                        var r2=this.$axios.post('add','a=1');
+                        
+                        this.$axios.all([r1,r2])
+                        .then(this.$axios.spreand((res1,res2)=>{
+                            this.res1=res1.data
+                            this.res2=res2.data
+                        }))
+                        .catch(err=>{
+                            console.log(err)
+                        })
+
+
+                        this.$axios.get('http://127.0.0.1:8888')
+                        .then(res=>{
+                            console.log(res)
+                        })
+                        .catch(err=>{
+                            console.log(err)
+
+                        })
+                    }
+                }
+            }
+            Vue.prototype.$axios=axios;
+            new Vue({
+                el:"#app",
+                data(){
+                    return{
+
+                    }
+                },
+                components:{
+                    App
+                },
+                //交给vue管理
+                router,
+                template:'<App/>'
+            })
+		 </script>
+	</body>
+</html>
